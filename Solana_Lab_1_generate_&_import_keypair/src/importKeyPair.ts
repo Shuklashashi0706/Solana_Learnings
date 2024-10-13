@@ -1,7 +1,18 @@
 import "dotenv/config";
 import { getKeypairFromEnvironment } from "@solana-developers/helpers";
 
-const keypair = getKeypairFromEnvironment("SECRET_KEY");
+const importKeyPair = async () => {
+  try {
+    const keypair = getKeypairFromEnvironment("SECRET_KEY");
+    if (!keypair) {
+      console.error("Keypair is undefined.");
+      return;
+    }
+    return keypair;
+  } catch (error) {
+    console.error("Error importing keypair:", error);
+    throw error;
+  }
+};
 
-console.log("Public key:", keypair.publicKey.toBase58());
-console.log("Private key:", keypair.secretKey);
+export default importKeyPair;
